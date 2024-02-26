@@ -1,11 +1,7 @@
 package med.voll.apim.controller;
 
 import jakarta.validation.Valid;
-import med.voll.apim.domain.medico.DadosAtualizacaoMedicoDTO;
-import med.voll.apim.domain.medico.DadosCadastroMedicoDTO;
-import med.voll.apim.domain.medico.DadosListagemMedicoDTO;
-import med.voll.apim.domain.medico.Medico;
-import med.voll.apim.medico.DadosDetalhamentoMedico;
+import med.voll.apim.domain.medico.*;
 import med.voll.apim.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +26,9 @@ public class MedicoController {
         repository.save(medico);
 
         //Criaação da URI para a location do metodo POST
-        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getID()).toUri();
+        var uri = uriBuilder.path("/medicos/{id}")
+                .buildAndExpand(medico.getID())
+                .toUri();
 
         //Recebe 2 parametros, 1º URI            2º O DTO de retorno
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));

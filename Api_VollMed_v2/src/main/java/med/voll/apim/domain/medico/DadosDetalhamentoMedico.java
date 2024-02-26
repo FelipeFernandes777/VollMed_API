@@ -1,8 +1,6 @@
-package med.voll.apim.medico;
+package med.voll.apim.domain.medico;
 
 import med.voll.apim.domain.endereco.Endereco;
-import med.voll.apim.domain.medico.Especialidade;
-import med.voll.apim.domain.medico.Medico;
 
 public record DadosDetalhamentoMedico(Long id, String nome, String email, String crm, String telefone,
                                       Especialidade especialidade,

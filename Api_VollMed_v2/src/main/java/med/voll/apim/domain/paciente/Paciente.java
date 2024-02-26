@@ -13,9 +13,9 @@ import med.voll.apim.domain.endereco.Endereco;
 @EqualsAndHashCode(of = "id")
 public class Paciente {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    @Column(name = "name", length = 30)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "nome", length = 30)
     private String nome;
     private String email;
     private String telefone;
