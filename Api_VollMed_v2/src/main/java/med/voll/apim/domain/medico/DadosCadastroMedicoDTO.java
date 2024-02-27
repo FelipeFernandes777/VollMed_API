@@ -8,9 +8,9 @@ import jakarta.validation.constraints.Pattern;
 import med.voll.apim.domain.endereco.DadosEnderecoDTO;
 
 public record DadosCadastroMedicoDTO(
-        @NotBlank
+        @NotBlank(message = "Nome cannot be null")
         String nome,
-        @NotBlank
+        @NotBlank(message = "Email cannot be null")
         @Email
         String email,
         @NotBlank

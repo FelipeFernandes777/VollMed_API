@@ -19,6 +19,20 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
+    @GetMapping
+    public ResponseEntity<Page<DadosListagemMedicoDTO>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+        Page<DadosListagemMedicoDTO> page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new);
+
+        return ResponseEntity.ok(page);
+        //HTTP statusCode 200 - ok
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedicoDTO dados, UriComponentsBuilder uriBuilder) {
@@ -33,14 +47,6 @@ public class MedicoController {
         //Recebe 2 parametros, 1º URI            2º O DTO de retorno
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
         //HTTP statusCode 201 - created
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<DadosListagemMedicoDTO>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        Page<DadosListagemMedicoDTO> page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicoDTO::new);
-
-        return ResponseEntity.ok(page);
-        //HTTP statusCode 200 - ok
     }
 
     @PutMapping
@@ -58,11 +64,5 @@ public class MedicoController {
         var medico = repository.getReferenceById(id);
         medico.excluir();
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id) {
-        var medico = repository.getReferenceById(id);
-        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 }
