@@ -12,12 +12,12 @@ import med.voll.apim.domain.endereco.Endereco;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "Id")
 public class Medico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long Id;
     private String nome;
     private String email;
     private String telefone;

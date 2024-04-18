@@ -5,16 +5,16 @@ import lombok.*;
 import med.voll.apim.domain.endereco.Endereco;
 
 @Table(name = "pacientes")
-@Entity(name = "pacientes")
+@Entity(name = "Pacientes")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "Id")
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
     @Column(name = "nome", length = 30)
     private String nome;
     private String email;

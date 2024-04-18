@@ -41,7 +41,7 @@ public class MedicoController {
 
         //Criaação da URI para a location do metodo POST
         var uri = uriBuilder.path("/medicos/{id}")
-                .buildAndExpand(medico.getID())
+                .buildAndExpand(medico.getId())
                 .toUri();
 
         //Recebe 2 parametros, 1º URI            2º O DTO de retorno
