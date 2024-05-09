@@ -7,6 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ApiMApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApiMApplication.class, args);
-
     }
 }

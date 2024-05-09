@@ -1,9 +1,9 @@
 package med.voll.apim.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.apim.domain.consulta.AgendaDeconsultas;
 import med.voll.apim.domain.consulta.DadosAgendamentoConsultaDTO;
-import med.voll.apim.domain.consulta.DadosDetalhamentoCnsulta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("consultas")
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ConsultaController {
     @Transactional
     public ResponseEntity agendarConsulta(@RequestBody @Valid DadosAgendamentoConsultaDTO dados) {
 
-        agendaDeconsultas.agendar(dados);
-        return ResponseEntity.ok(new DadosDetalhamentoCnsulta(null, null, null, null));
+        var dto = agendaDeconsultas.agendar(dados);
+        return ResponseEntity.ok(dto);
     }
 }

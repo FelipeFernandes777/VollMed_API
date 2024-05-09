@@ -1,5 +1,6 @@
 package med.voll.apim.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.apim.domain.paciente.*;
 import med.voll.apim.repository.PacienteRepository;
@@ -16,6 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
     @Autowired
     private PacienteRepository repository;

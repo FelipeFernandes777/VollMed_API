@@ -1,5 +1,6 @@
 package med.voll.apim.domain.consulta;
 
+import med.voll.apim.domain.consulta.validacoes.ValidadorAgendamentoDeConsulta;
 import med.voll.apim.domain.exception.ValidacaoException;
 import med.voll.apim.domain.medico.Medico;
 import med.voll.apim.domain.paciente.Paciente;
@@ -9,6 +10,8 @@ import med.voll.apim.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AgendaDeconsultas {
     @Autowired
@@ -17,8 +20,10 @@ public class AgendaDeconsultas {
     private PacienteRepository pacienteRepository;
     @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
+    private List<ValidadorAgendamentoDeConsulta> validadores;
 
-    public void agendar(DadosAgendamentoConsultaDTO dados) {
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsultaDTO dados) {
 
         if (!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("Id do paciente informado, não existe");
@@ -28,12 +33,19 @@ public class AgendaDeconsultas {
             throw new ValidacaoException("Id do medico informado, não existe");
         }
 
+        validadores.forEach(validador -> validador.validar(dados));
+
         Paciente paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         Medico medico = escolherMedico(dados);
 
+        if (medico == null) {
+            throw new ValidacaoException("Não existe medico disponivel nesta data");
+        }
         var consulta = new Consulta(null, medico, paciente, dados.data());
 
         consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsultaDTO dados) {
